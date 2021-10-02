@@ -1,0 +1,43 @@
+.game-display-page{
+    display: flex;
+    flex-wrap: wrap;
+}
+.card{
+    width: 250px;
+    height: 400px;
+    background-image: url("../images/wotlk-arthas.jpg");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    color: whitesmoke;
+    margin: 8px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    transition: all .2s ease-in-out;
+    font-family: 'Poppins',sans-serif;
+    border: 1px solid black;
+}
+.card:hover{
+    transform: scale(1.02);
+    cursor: pointer;
+}
+.card-info{
+    display: flex;
+    flex-direction: column;
+}
+#card-title{
+    text-align: center;
+}
+#card-description{
+    position: relative;
+    text-align: center;
+    top: 200px;
+}
+#card-item-price{
+   position: relative;
+   text-align: center;
+   top: 220px;
+}
+#card-item-developer{
+   position: relative;
+   text-align: center;
+   top: 190px;
+}
