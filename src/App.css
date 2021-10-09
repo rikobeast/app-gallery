@@ -1,7 +1,8 @@
-body{
-    background-color: #333333;
+body {
+  background-color: #333333;
 }
-html,body{
-    height: 100%;
-    margin: 0;
+html,
+body {
+  height: 100vh;
+  margin: 0;
 }

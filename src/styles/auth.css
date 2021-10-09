@@ -1,60 +1,87 @@
-.login-page,.register-page{
-    display: flex;
-    justify-content: center;
-    padding: 30px;
+.login-page,
+.register-page {
+  font-family: "Poppins", sans-serif;
+  display: flex;
+  justify-content: center;
+  padding: 30px;
 }
-.login-container,.register-container{
-    display: flex;
-    align-items: center;
-    justify-content:center;
-    flex-direction: column;
-    min-width: 500px;
-    height: 500px;
-    background-color: #1f1f1f;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+.login-container,
+.register-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 500px;
+  height: 500px;
+  background-color: #1f1f1f;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
-#heading{
-    color: whitesmoke;
-    font-size: 25px;
+#heading {
+  color: whitesmoke;
+  font-size: 25px;
 }
-.login-form,.register-form{
-    width: 250px;
+.error {
+  margin-bottom: 5px;
+  color: red;
+  font-size: 0.69rem;
 }
-.username,.password,.password-confirm,.email{
-    box-sizing: border-box;
+.login-form,
+.register-form {
+  width: 250px;
+}
+input:focus {
+  outline: none;
+}
+.username,
+.password,
+.password-confirm,
+.email {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 6px;
+  margin-bottom: 5px;
+  border: none;
+  background-color: #3f3f3f;
+  color: whitesmoke;
+}
+#auth-button {
+  width: 100%;
+  padding: 10px;
+  background-color: rgb(180, 0, 204);
+  border: none;
+  color: whitesmoke;
+  font-size: 15px;
+  transition-duration: 1s;
+}
+#auth-button:hover {
+  width: 100%;
+  padding: 10px;
+  background-color: rgb(119, 0, 135);
+  border: none;
+  color: whitesmoke;
+  font-size: 15px;
+  transition-duration: 1s;
+}
+#reg-redirect {
+  position: relative;
+  margin-top: 5px;
+  text-decoration: none;
+  float: right;
+  color: rgb(18, 168, 238);
+  font-size: 12px;
+}
+
+/* Mobile */
+
+@media only screen and (max-width: 720px) {
+  .login-page,
+  .register-page {
+    font-family: "Poppins", sans-serif;
+    height: 86.7vh;
+  }
+  .login-container,
+  .register-container {
     width: 100%;
-    padding: 6px;
-    margin-bottom: 5px;
-    border: none;
-    background-color: #3f3f3f;
-    color: whitesmoke;
-}
-input:focus{
-    outline: none;
-}
-#auth-button{
-    width: 100%;
-    padding: 10px;
-    background-color: rgb(180, 0, 204);
-    border: none;
-    color: whitesmoke;
-    font-size: 15px;
-    transition-duration: 1s;
-}
-#auth-button:hover{
-    width: 100%;
-    padding: 10px;
-    background-color: rgb(119, 0, 135);
-    border: none;
-    color: whitesmoke;
-    font-size: 15px;
-    transition-duration: 1s;
-}
-#reg-redirect{
-    position: relative;
-    margin-top: 5px;
-    text-decoration: none;
-    float: right;
-    color: rgb(18, 168, 238);
-    font-size: 12px;
+    height: 86.7vh;
+  }
 }
