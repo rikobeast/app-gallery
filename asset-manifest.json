@@ -1,8 +1,8 @@
 {
   "files": {
-    "main.css": "/app-gallery/static/css/main.2c90bde0.chunk.css",
-    "main.js": "/app-gallery/static/js/main.14532ca3.chunk.js",
-    "main.js.map": "/app-gallery/static/js/main.14532ca3.chunk.js.map",
+    "main.css": "/app-gallery/static/css/main.296073f2.chunk.css",
+    "main.js": "/app-gallery/static/js/main.ae1751af.chunk.js",
+    "main.js.map": "/app-gallery/static/js/main.ae1751af.chunk.js.map",
     "runtime-main.js": "/app-gallery/static/js/runtime-main.8633cf5c.js",
     "runtime-main.js.map": "/app-gallery/static/js/runtime-main.8633cf5c.js.map",
     "static/js/2.df75bcae.chunk.js": "/app-gallery/static/js/2.df75bcae.chunk.js",
@@ -10,14 +10,13 @@
     "static/js/3.d33910f5.chunk.js": "/app-gallery/static/js/3.d33910f5.chunk.js",
     "static/js/3.d33910f5.chunk.js.map": "/app-gallery/static/js/3.d33910f5.chunk.js.map",
     "index.html": "/app-gallery/index.html",
-    "static/css/main.2c90bde0.chunk.css.map": "/app-gallery/static/css/main.2c90bde0.chunk.css.map",
-    "static/js/2.df75bcae.chunk.js.LICENSE.txt": "/app-gallery/static/js/2.df75bcae.chunk.js.LICENSE.txt",
-    "static/media/game-card.css": "/app-gallery/static/media/wotlk-arthas.4bfcae7a.jpg"
+    "static/css/main.296073f2.chunk.css.map": "/app-gallery/static/css/main.296073f2.chunk.css.map",
+    "static/js/2.df75bcae.chunk.js.LICENSE.txt": "/app-gallery/static/js/2.df75bcae.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.8633cf5c.js",
     "static/js/2.df75bcae.chunk.js",
-    "static/css/main.2c90bde0.chunk.css",
-    "static/js/main.14532ca3.chunk.js"
+    "static/css/main.296073f2.chunk.css",
+    "static/js/main.ae1751af.chunk.js"
   ]
 }
