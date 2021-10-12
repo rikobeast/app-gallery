@@ -1,8 +1,13 @@
 :root {
   --height: 94.6vh;
-  --main-theme-color: rgb(180, 0, 204);
-  --main-theme-color-hover: rgb(119, 0, 135);
+  --main-theme-color: #007fc4;
+  --main-theme-color-hover: #006aa3;
   --font: "Poppins", sans-serif;
+  --font-w-2: 200;
+  --font-w-3: 300;
+  --font-w-5: 500;
+  --font-w-6: 600;
+  --font-w-8: 800;
 }
 .content {
   font-family: var(--font);
@@ -16,7 +21,9 @@
   flex-direction: column;
 }
 .welcome-msg {
+  font: var(--font);
   color: whitesmoke;
+  font-weight: var(--font-w-5);
   font-size: 2.5rem;
   text-align: center;
 }
@@ -26,5 +33,5 @@
 .description {
   color: whitesmoke;
   text-align: center;
-  margin-bottom: 10;
+  margin-bottom: 15px;
 }

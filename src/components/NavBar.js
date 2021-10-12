@@ -1,15 +1,42 @@
 import React, { useState, useEffect } from "react";
-import { Switch, Link, useHistory } from "react-router-dom";
-import "../styles/navbar.css";
+import { Link, useHistory } from "react-router-dom";
+import "../styles/Navbar.css";
 import { useAuth } from "../auth/AuthProvider";
 import { AiOutlineMenu } from "react-icons/ai";
 import { AiOutlineClose } from "react-icons/ai";
+import Logo from "../images/GGA Logo.svg";
 
 function NavBar() {
   const { user, signOut } = useAuth();
   const [isLogged, setIsLogged] = useState(false);
+  const [clickedItemId, setClickedItemId] = useState();
   const [click, setClick] = useState(true);
   const history = useHistory();
+
+  const navItems = [
+    {
+      id: 0,
+      title: "Games",
+      url: "/games",
+    },
+    {
+      id: 1,
+      title: "Discussions",
+      url: "/discussions",
+    },
+    {
+      id: 2,
+      title: "Upload",
+      url: "/upload",
+      displayIfLogged: true,
+    },
+    {
+      id: 3,
+      title: "Account",
+      url: "/dashboard",
+      displayIfLogged: true,
+    },
+  ];
 
   let iconStyles = {
     color: "white",
@@ -28,6 +55,9 @@ function NavBar() {
   async function closeMobileMenu() {
     setClick(true);
   }
+  async function setNavItemActive(id) {
+    setClickedItemId(id);
+  }
 
   useEffect(() => {
     if (user) {
@@ -35,113 +65,139 @@ function NavBar() {
     } else {
       setIsLogged(false);
     }
-  }, [user]);
+  }, [user, clickedItemId]);
 
   return (
-    <Switch>
-      <div className="navigation">
-        <div className="logo">
-          <Link id="logo" to="/app-gallery">
-            Logo
+    <div className="navigation">
+      <div className="logo">
+        <Link onClick={setNavItemActive} id="logo" to="/app-gallery">
+          <img src={Logo} alt="Back to homepage" />
+        </Link>
+      </div>
+      {
+        <div className="web-nav">
+          <div className="nav-links">
+            {navItems.map((item) => (
+              <div key={item.id} className="nav-item">
+                <Link
+                  onClick={() => {
+                    setNavItemActive(item.id);
+                  }}
+                  id={clickedItemId === item.id ? "option-active" : "option"}
+                  to={`${item.url}`}
+                >
+                  {item.title}
+                </Link>
+                <div
+                  className={clickedItemId === item.id ? "active" : null}
+                ></div>
+              </div>
+            ))}
+            <div className="nav-item">
+              <Link onClick={setNavItemActive} id="option" to="/register">
+                Sign Up
+              </Link>
+            </div>
+          </div>
+        </div>
+
+        /* <div className="web-nav">
+        {isLogged ? (
+          <div className="nav-links">
+            <Link id="option" to="/games">
+              Games
+            </Link>
+            <Link id="option" to="/discussions">
+              Discussions
+            </Link>
+            <Link id="option" to="/upload">
+              Upload
+            </Link>
+            <Link id="option" to="/dashboard">
+              Account
+            </Link>
+          </div>
+        ) : (
+          <div className="nav-links">
+            <Link id="option" to="/games">
+              Games
+            </Link>
+            <Link id="option" to="/discussions">
+              Discussions
+            </Link>
+            <Link id="option" to="/register">
+              Sign up
+            </Link>
+          </div>
+        )}
+      </div>  */
+      }
+      {isLogged ? (
+        <div className="btn-container">
+          <Link id="logout-btn" to="/login" onClick={handleLogout}>
+            Log out
           </Link>
         </div>
-        <div className="web-nav">
-          {isLogged ? (
-            <div className="nav-links">
-              <Link id="option" to="/games">
-                Games
-              </Link>
-              <Link id="option" to="/discussions">
-                Discussions
-              </Link>
-              <Link id="option" to="/upload">
-                Upload
-              </Link>
-              <Link id="option" to="/dashboard">
-                Account
-              </Link>
-            </div>
+      ) : (
+        <div className="btn-container">
+          <Link id="login-btn" to="/login">
+            Log in
+          </Link>
+        </div>
+      )}
+      <div className="mobile-nav">
+        <div className="hamburger-menu" onClick={handleClick}>
+          {click ? (
+            <AiOutlineMenu style={iconStyles} />
           ) : (
-            <div className="nav-links">
-              <Link id="option" to="/games">
-                Games
-              </Link>
-              <Link id="option" to="/discussions">
-                Discussions
-              </Link>
-              <Link id="option" to="/register">
-                Sign up
-              </Link>
-            </div>
+            <AiOutlineClose style={iconStyles} />
           )}
         </div>
+      </div>
+      <div className={click ? "nav-menu" : "nav-menu active"}>
         {isLogged ? (
-          <div className="btn-container">
-            <Link id="logout-btn" to="/login" onClick={handleLogout}>
+          <div className="menu">
+            <Link onClick={closeMobileMenu} id="m-option" to="/games">
+              Games
+            </Link>
+            <Link onClick={closeMobileMenu} id="m-option" to="/discussions">
+              Discussions
+            </Link>
+            <Link onClick={closeMobileMenu} id="m-option" to="/upload">
+              Upload
+            </Link>
+            <Link onClick={closeMobileMenu} id="m-option" to="/dashboard">
+              Account
+            </Link>
+            <Link
+              onClick={() => {
+                handleLogout();
+                closeMobileMenu();
+              }}
+              id="logout-btn-m"
+              to="/login"
+            >
               Log out
             </Link>
           </div>
         ) : (
-          <div className="btn-container">
-            <Link id="login-btn" to="/login">
+          <div className="menu">
+            <Link onClick={closeMobileMenu} id="m-option" to="/games">
+              Games
+            </Link>
+            <Link onClick={closeMobileMenu} id="m-option" to="/discussions">
+              Discussions
+            </Link>
+            <Link onClick={closeMobileMenu} id="m-option" to="/register">
+              Sign up
+            </Link>
+            <Link onClick={closeMobileMenu} id="login-btn-m" to="/login">
               Log in
             </Link>
           </div>
         )}
-        <div className="mobile-nav">
-          <div className="hamburger-menu" onClick={handleClick}>
-            {click ? (
-              <AiOutlineMenu style={iconStyles} />
-            ) : (
-              <AiOutlineClose style={iconStyles} />
-            )}
-          </div>
-        </div>
-        <div className={click ? "nav-menu" : "nav-menu active"}>
-          {isLogged ? (
-            <div className="menu">
-              <Link onClick={closeMobileMenu} id="m-option" to="/games">
-                Games
-              </Link>
-              <Link onClick={closeMobileMenu} id="m-option" to="/discussions">
-                Discussions
-              </Link>
-              <Link onClick={closeMobileMenu} id="m-option" to="/upload">
-                Upload
-              </Link>
-              <Link onClick={closeMobileMenu} id="m-option" to="/dashboard">
-                Account
-              </Link>
-              <Link
-                onClick={() => {
-                  handleLogout();
-                  closeMobileMenu();
-                }}
-                id="logout-btn-m"
-                to="/login"
-              >
-                Log out
-              </Link>
-            </div>
-          ) : (
-            <div className="menu">
-              <Link onClick={closeMobileMenu} id="m-option" to="/games">
-                Games
-              </Link>
-              <Link onClick={closeMobileMenu} id="m-option" to="/discussions">
-                Discussions
-              </Link>
-              <Link onClick={closeMobileMenu} id="m-option" to="/register">
-                Sign up
-              </Link>
-              <Link onClick={closeMobileMenu} id="login-btn-m" to="/login">
-                Log in
-              </Link>
-            </div>
-          )}
-        </div>
       </div>
-    </Switch>
+    </div>
   );
 }
 export default NavBar;

@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import "../styles/auth.css";
+import "../styles/Auth.css";
 import { Link, useHistory } from "react-router-dom";
 import { useAuth } from "../auth/AuthProvider";
 
@@ -34,7 +34,7 @@ function AuthLogin() {
     <div className="login-page">
       <div className="login-container">
         <h2 id="heading">Log in</h2>
-        <div className="error">{error}</div>
+        <div className={error ? "error" : null}>{error}</div>
         <form className="login-form" onSubmit={handleSubmit}>
           <input
             type="email"

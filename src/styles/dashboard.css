@@ -1,7 +1,7 @@
 :root {
   --height: 94.6vh;
-  --main-theme-color: rgb(180, 0, 204);
-  --main-theme-color-hover: rgb(119, 0, 135);
+  --main-theme-color: #007fc4;
+  --main-theme-color-hover: #006aa3;
   --font: "Poppins", sans-serif;
   --font-w-2: 200;
   --font-w-3: 300;

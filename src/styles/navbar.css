@@ -1,7 +1,7 @@
 :root {
   --height: 94.6vh;
-  --main-theme-color: rgb(180, 0, 204);
-  --main-theme-color-hover: rgb(119, 0, 135);
+  --main-theme-color: #007fc4;
+  --main-theme-color-hover: #006aa3;
   --font: "Poppins", sans-serif;
   --font-w-2: 200;
   --font-w-3: 300;
@@ -29,26 +29,46 @@
   display: none;
 }
 #logo {
-  color: whitesmoke;
-  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   margin-left: 30px;
-  text-decoration: none;
 }
 
 .nav-links {
   display: flex;
   justify-content: space-between;
 }
+#option-active {
+  text-decoration: none;
+  font-size: 1.05rem;
+  margin: 10px;
+  color: var(--main-theme-color);
+  transition-duration: 0.2s;
+}
 #option {
   text-decoration: none;
   font-size: 1.05rem;
-  margin: 8px;
+  margin: 10px;
   color: whitesmoke;
-  transition-duration: 0.5s;
+  transition-duration: 0.2s;
+}
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 50px;
+  margin-left: 2px;
+}
+.active {
+  width: 100%;
+  background-color: var(--main-theme-color-hover);
+  height: 2px;
 }
 #option:hover {
   color: var(--main-theme-color);
-  transition-duration: 0.5s;
+  transition-duration: 0.2s;
 }
 #login-btn {
   font-family: var(--font);
@@ -62,31 +82,32 @@
   padding-bottom: 5px;
   background-color: var(--main-theme-color);
   border-radius: 3px;
-  transition-duration: 0.5s;
+  transition-duration: 0.2s;
   text-decoration: none;
 }
 #login-btn:hover {
   background-color: var(--main-theme-color-hover);
-  transition-duration: 0.5s;
+  transition-duration: 0.2s;
 }
 #logout-btn {
   font-family: var(--font);
-  font-size: 1rem;
-  border: none;
-  color: whitesmoke;
+  font-size: 0.9rem;
+  border: 1px solid rgb(239, 68, 68);
+  color: rgb(239, 68, 68);
   margin-right: 30px;
   padding-left: 20px;
   padding-right: 20px;
   padding-top: 5px;
   padding-bottom: 5px;
-  background-color: darkred;
-  border-radius: 3px;
-  transition-duration: 0.5s;
+  background-color: none;
+  border-radius: 1px;
+  transition-duration: 0.2s;
   text-decoration: none;
 }
 #logout-btn:hover {
-  background-color: rgb(110, 2, 2);
-  transition-duration: 0.5s;
+  background-color: rgb(239, 68, 68);
+  color: whitesmoke;
+  transition-duration: 0.2s;
 }
 /* For mobile */
 #login-btn-m {

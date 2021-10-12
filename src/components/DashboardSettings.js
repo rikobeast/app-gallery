@@ -1,10 +1,9 @@
 import React, { useState, useRef } from "react";
-import "../styles/dashboard.css";
+import "../styles/Dashboard.css";
 import { supabase } from "../supabase";
 import { useAuth } from "../auth/AuthProvider";
 
 function DashboardSettings() {
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const usernameRef = useRef();
@@ -19,10 +18,9 @@ function DashboardSettings() {
     const lname = lnameRef.current.value;
     const website = websiteRef.current.value;
 
-    setLoading(true);
     setError("");
     setSuccess();
-    const { data, error } = await supabase.from("profiles").upsert({
+    const { error } = await supabase.from("profiles").upsert({
       id: user?.id,
       username: username,
       first_name: fname,
@@ -31,11 +29,9 @@ function DashboardSettings() {
     });
 
     if (error) {
-      setLoading(false);
       setSuccess("");
       setError(error.message);
     } else {
-      setLoading(false);
       setError("");
       setSuccess("Changes saved successfully.");
     }
@@ -44,9 +40,8 @@ function DashboardSettings() {
   return (
     <div className="dashboard-content">
       <div className="notification-handling">
-        <div className={success ? "success" : "error"}>
-          {success ? success : error}
-        </div>
+        <div className={success ? "success" : null}>{success}</div>
+        <div className={error ? "error" : null}>{error}</div>
       </div>
       <div className="container">
         <div className="header">

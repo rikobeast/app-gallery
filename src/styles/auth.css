@@ -1,3 +1,15 @@
+:root {
+  --height: 94.6vh;
+  --main-theme-color: #007fc4;
+  --main-theme-color-hover: #006aa3;
+  --font: "Poppins", sans-serif;
+  --font-w-2: 200;
+  --font-w-3: 300;
+  --font-w-5: 500;
+  --font-w-6: 600;
+  --font-w-8: 800;
+}
+
 .login-page,
 .register-page {
   font-family: "Poppins", sans-serif;
@@ -47,7 +59,7 @@ input:focus {
 #auth-button {
   width: 100%;
   padding: 10px;
-  background-color: rgb(180, 0, 204);
+  background-color: var(--main-theme-color);
   border: none;
   color: whitesmoke;
   font-size: 15px;
@@ -56,7 +68,7 @@ input:focus {
 #auth-button:hover {
   width: 100%;
   padding: 10px;
-  background-color: rgb(119, 0, 135);
+  background-color: var(--main-theme-color-hover);
   border: none;
   color: whitesmoke;
   font-size: 15px;
