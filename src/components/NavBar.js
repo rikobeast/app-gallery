@@ -93,44 +93,15 @@ function NavBar() {
                 ></div>
               </div>
             ))}
-            <div className="nav-item">
-              <Link onClick={setNavItemActive} id="option" to="/register">
-                Sign Up
-              </Link>
-            </div>
+            {!isLogged ? (
+              <div className="nav-item">
+                <Link onClick={setNavItemActive} id="option" to="/register">
+                  Sign Up
+                </Link>
+              </div>
+            ) : null}
           </div>
         </div>
-
-        /* <div className="web-nav">
-        {isLogged ? (
-          <div className="nav-links">
-            <Link id="option" to="/games">
-              Games
-            </Link>
-            <Link id="option" to="/discussions">
-              Discussions
-            </Link>
-            <Link id="option" to="/upload">
-              Upload
-            </Link>
-            <Link id="option" to="/dashboard">
-              Account
-            </Link>
-          </div>
-        ) : (
-          <div className="nav-links">
-            <Link id="option" to="/games">
-              Games
-            </Link>
-            <Link id="option" to="/discussions">
-              Discussions
-            </Link>
-            <Link id="option" to="/register">
-              Sign up
-            </Link>
-          </div>
-        )}
-      </div>  */
       }
       {isLogged ? (
         <div className="btn-container">

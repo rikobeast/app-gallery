@@ -1,7 +1,7 @@
 :root {
   --height: 94.6vh;
   --main-theme-color: #007fc4;
-  --main-theme-color-hover: #006aa3;
+  --main-theme-color-hover: #003b5a;
   --font: "Poppins", sans-serif;
   --font-w-2: 200;
   --font-w-3: 300;
@@ -33,9 +33,10 @@
   font-size: 25px;
 }
 .error {
+  font-family: var(--font);
   margin-bottom: 5px;
   color: red;
-  font-size: 0.69rem;
+  font-size: 0.59rem;
 }
 .login-form,
 .register-form {
@@ -63,7 +64,7 @@ input:focus {
   border: none;
   color: whitesmoke;
   font-size: 15px;
-  transition-duration: 1s;
+  transition-duration: 0.3s;
 }
 #auth-button:hover {
   width: 100%;
@@ -72,7 +73,8 @@ input:focus {
   border: none;
   color: whitesmoke;
   font-size: 15px;
-  transition-duration: 1s;
+  transition-duration: 0.3s;
+  cursor: pointer;
 }
 #reg-redirect {
   position: relative;

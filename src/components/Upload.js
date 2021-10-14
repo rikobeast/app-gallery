@@ -1,16 +1,18 @@
-import React, { useState, useRef } from "react";
+import React, { useState, createRef } from "react";
 import "../styles/Upload.css";
 import { supabase } from "../supabase";
 import { useAuth } from "../auth/AuthProvider";
+import Button from "./Button";
+import FormInput from "./FormInput";
 
 function Upload() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const gameTitleRef = useRef();
-  const gameDescriptionRef = useRef();
-  const gamePriceRef = useRef();
-  const gameDevRef = useRef();
+  const gameTitleRef = createRef();
+  const gameDescriptionRef = createRef();
+  const gamePriceRef = createRef();
+  const gameDevRef = createRef();
   const { user } = useAuth();
   const imageURL = {
     url: "",
@@ -66,16 +68,11 @@ function Upload() {
           </div>
           <div className="input-container">
             <label htmlFor="title">Game title</label>
-            <input type="text" id="title" ref={gameTitleRef} required />
+            <FormInput type="text" id="title" ref={gameTitleRef} required />
           </div>
           <div className="input-container">
             <label htmlFor="image">Display image</label>
-            <input
-              type="file"
-              id="image"
-              onChange={uploadImage}
-              required
-            ></input>
+            <FormInput type="file" id="image" onChange={uploadImage} required />
           </div>
           <div className="input-container">
             <label htmlFor="description">Game description</label>
@@ -88,15 +85,18 @@ function Upload() {
           </div>
           <div className="input-container">
             <label htmlFor="price">Game Price</label>
-            <input type="text" id="price" ref={gamePriceRef} required></input>
+            <FormInput type="text" id="price" ref={gamePriceRef} required />
           </div>
           <div className="input-container">
             <label htmlFor="developer">Developer</label>
-            <input type="text" id="developer" ref={gameDevRef} required></input>
+            <FormInput type="text" id="developer" ref={gameDevRef} required />
           </div>
-          <button disabled={isLoading} onClick={handleUpload} id="upload-btn">
-            {isLoading ? <span>Uploading...</span> : <span>Upload</span>}
-          </button>
+          <Button
+            disabled={isLoading}
+            onClick={handleUpload}
+            id="upload-btn"
+            value={isLoading ? <span>Uploading...</span> : <span>Upload</span>}
+          />
         </form>
       </div>
       <div className="upload-guidelines"></div>

@@ -2,6 +2,7 @@ import React, { useState, useRef } from "react";
 import "../styles/Dashboard.css";
 import { supabase } from "../supabase";
 import { useAuth } from "../auth/AuthProvider";
+import Button from "./Button";
 
 function DashboardSettings() {
   const [error, setError] = useState("");
@@ -82,9 +83,7 @@ function DashboardSettings() {
         </div>
       </div>
       <div className="button-container">
-        <button onClick={updateProfile} id="save-btn">
-          Save
-        </button>
+        <Button onClick={updateProfile} id="save-btn" value="Save" />
       </div>
     </div>
   );

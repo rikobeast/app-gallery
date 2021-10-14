@@ -3,7 +3,7 @@
   --file-input-btn-color: whitesmoke;
   --file-input-btn-color-hover: rgb(191, 191, 191);
   --main-theme-color: #007fc4;
-  --main-theme-color-hover: #006aa3;
+  --main-theme-color-hover: #003b5a;
   --input-color: #3f3f3f;
   --font: "Poppins", sans-serif;
   --font-w-2: 200;
@@ -83,14 +83,15 @@ input[type="file"]::file-selector-button {
   border: none;
   padding: 7px;
   background-color: var(--file-input-btn-color);
-  transition-duration: 0.5s;
+  transition-duration: 0.3s;
 }
 input[type="file"]::file-selector-button:hover {
   font-family: var(--font);
   border: none;
   padding: 7px;
   background-color: var(--file-input-btn-color-hover);
-  transition-duration: 0.5s;
+  transition-duration: 0.3s;
+  cursor: pointer;
 }
 #upload-btn {
   width: 120px;
@@ -102,7 +103,7 @@ input[type="file"]::file-selector-button:hover {
   background-color: var(--main-theme-color);
   border: none;
   border-radius: 2px;
-  transition-duration: 0.5s;
+  transition-duration: 0.3s;
 }
 #upload-btn:hover {
   width: 120px;
@@ -114,7 +115,8 @@ input[type="file"]::file-selector-button:hover {
   background-color: var(--main-theme-color-hover);
   border: none;
   border-radius: 2px;
-  transition-duration: 0.5s;
+  transition-duration: 0.3s;
+  cursor: pointer;
 }
 .error {
   color: red;

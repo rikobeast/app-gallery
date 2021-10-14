@@ -1,6 +1,7 @@
 import React from "react";
 import "../../styles/CardModal.css";
 import { RiCloseLine } from "react-icons/ri";
+import Button from "../Button";
 
 export const CardModal = (props) => {
   let iconStyles = {
@@ -34,7 +35,7 @@ export const CardModal = (props) => {
                 <p className="developer">{props.dev}</p>
               </div>
               <div className="button">
-                <button id="buy-btn">Buy</button>
+                <Button id="buy-btn" value="Buy" />
               </div>
             </div>
           </div>

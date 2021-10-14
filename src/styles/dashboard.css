@@ -1,7 +1,7 @@
 :root {
   --height: 94.6vh;
   --main-theme-color: #007fc4;
-  --main-theme-color-hover: #006aa3;
+  --main-theme-color-hover: #003b5a;
   --font: "Poppins", sans-serif;
   --font-w-2: 200;
   --font-w-3: 300;
@@ -65,7 +65,7 @@
   border: none;
   color: whitesmoke;
   background-color: var(--main-theme-color);
-  transition-duration: 0.5s;
+  transition-duration: 0.3s;
   border-radius: 3px;
 }
 #save-btn:hover {
@@ -74,8 +74,9 @@
   border: none;
   color: whitesmoke;
   background-color: var(--main-theme-color-hover);
-  transition-duration: 0.5s;
+  transition-duration: 0.3s;
   border-radius: 3px;
+  cursor: pointer;
 }
 .container {
   background-color: #222222;

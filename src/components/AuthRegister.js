@@ -1,14 +1,17 @@
-import React, { useRef, useState } from "react";
+import React, { useState, createRef, useEffect } from "react";
+import Button from "../components/Button";
 import "../styles/Auth.css";
 import { Link, useHistory } from "react-router-dom";
 import { useAuth } from "../auth/AuthProvider";
+import FormInput from "./FormInput";
 
 function AuthRegister() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const emailRef = useRef();
-  const passwordRef = useRef();
-  const confirmPasswordRef = useRef();
+  const [passwordState, setPasswordState] = useState("");
+  const emailRef = createRef();
+  const passwordRef = createRef();
+  const confirmPasswordRef = createRef();
   const history = useHistory();
   const { signUp } = useAuth();
 
@@ -20,6 +23,9 @@ function AuthRegister() {
 
     if (password !== confirmedPassword) {
       return setError("Passwords do not match.");
+    }
+    if (passwordState.length < 8) {
+      return setError("Password must be at least 8 characters long.");
     }
 
     setLoading(true);
@@ -44,30 +50,33 @@ function AuthRegister() {
         <h2 id="heading">Create an account</h2>
         <form className="register-form" onSubmit={handleSubmit}>
           <div className="error">{error}</div>
-          <input
+          <FormInput
             type="email"
             className="email"
             placeholder="Email"
             ref={emailRef}
             required
-          ></input>
-          <input
+          ></FormInput>
+          <FormInput
             type="password"
             className="password"
             placeholder="Password"
             ref={passwordRef}
             required
-          ></input>
-          <input
+          ></FormInput>
+          <FormInput
             type="password"
-            className="password-confirm"
+            className="password"
             placeholder="Confirm password"
             ref={confirmPasswordRef}
             required
-          ></input>
-          <button id="auth-button" disabled={loading} type="submit">
-            {loading ? <span>Loading...</span> : <span>Sign in</span>}
-          </button>
+          ></FormInput>
+          <Button
+            id="auth-button"
+            disabled={loading}
+            type="submit"
+            value={loading ? <span>Loading...</span> : <span>Sign in</span>}
+          />
           <Link to="/login" id="reg-redirect">
             Already have an account? Log in.
           </Link>

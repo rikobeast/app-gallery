@@ -1,13 +1,15 @@
-import React, { useState, useRef } from "react";
+import React, { useState, createRef } from "react";
 import "../styles/Auth.css";
 import { Link, useHistory } from "react-router-dom";
 import { useAuth } from "../auth/AuthProvider";
+import Button from "./Button";
+import FormInput from "./FormInput";
 
 function AuthLogin() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const emailRef = useRef();
-  const passwordRef = useRef();
+  const emailRef = createRef();
+  const passwordRef = createRef();
   const { signIn } = useAuth();
   const history = useHistory();
 
@@ -36,23 +38,26 @@ function AuthLogin() {
         <h2 id="heading">Log in</h2>
         <div className={error ? "error" : null}>{error}</div>
         <form className="login-form" onSubmit={handleSubmit}>
-          <input
+          <FormInput
             type="email"
-            className="username"
+            className="email"
             placeholder="Email"
             ref={emailRef}
             required
-          ></input>
-          <input
+          />
+          <FormInput
             type="password"
             className="password"
             placeholder="Password"
             ref={passwordRef}
             required
-          ></input>
-          <button id="auth-button" disabled={loading} type="submit">
-            {loading ? <span>Loading...</span> : <span>Log in</span>}
-          </button>
+          />
+          <Button
+            id="auth-button"
+            disabled={loading}
+            type="submit"
+            value={loading ? <span>Loading...</span> : <span>Log in</span>}
+          />
           <Link to="/register" id="reg-redirect">
             Don't have an account? Register here.
           </Link>
