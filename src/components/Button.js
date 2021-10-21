@@ -10,6 +10,7 @@ function Button(props) {
       className={props.className}
     >
       {props.value}
+      {props.icon}
     </button>
   );
 }

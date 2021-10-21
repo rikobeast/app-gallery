@@ -1,7 +1,12 @@
 :root {
   --height: 94.6vh;
-  --main-theme-color: #007fc4;
-  --main-theme-color-hover: #003b5a;
+  --main-theme-color-black: #111111;
+  --main-theme-color-gray: #1f1f1f;
+  --main-theme-color-blue: #007fc4;
+  --main-theme-color-lightblue: #008eda;
+  --main-theme-color-white: #dce1e9;
+  --main-theme-color-red: #a50000;
+  --main-theme-color-lightred: #c40000;
   --font: "Poppins", sans-serif;
   --font-w-2: 200;
   --font-w-3: 300;
@@ -9,10 +14,12 @@
   --font-w-6: 600;
   --font-w-8: 800;
 }
-
+body {
+  background-color: #1f1f1f;
+}
 .login-page,
 .register-page {
-  font-family: "Poppins", sans-serif;
+  font-family: var(--font);
   display: flex;
   justify-content: center;
   padding: 30px;
@@ -25,11 +32,11 @@
   flex-direction: column;
   width: 500px;
   height: 500px;
-  background-color: #1f1f1f;
+  background-color: #111111;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 #heading {
-  color: whitesmoke;
+  color: var(--main-theme-color-white);
   font-size: 25px;
 }
 .error {
@@ -43,7 +50,7 @@
   width: 250px;
 }
 input:focus {
-  outline: none;
+  outline: 1px solid var(--main-theme-color-lightblue);
 }
 .username,
 .password,
@@ -54,25 +61,26 @@ input:focus {
   padding: 6px;
   margin-bottom: 5px;
   border: none;
-  background-color: #3f3f3f;
-  color: whitesmoke;
+  background-color: #1f1f1f;
+  color: var(--main-theme-color-white);
 }
 #auth-button {
   width: 100%;
   padding: 10px;
-  background-color: var(--main-theme-color);
+  background-color: var(--main-theme-color-blue);
   border: none;
-  color: whitesmoke;
-  font-size: 15px;
+  color: var(--main-theme-color-white);
+  font-weight: var(--font-w-6);
+  font-size: 16px;
   transition-duration: 0.3s;
 }
 #auth-button:hover {
   width: 100%;
   padding: 10px;
-  background-color: var(--main-theme-color-hover);
+  background-color: var(--main-theme-color-lightblue);
   border: none;
-  color: whitesmoke;
-  font-size: 15px;
+  color: var(--main-theme-color-white);
+  font-size: 16px;
   transition-duration: 0.3s;
   cursor: pointer;
 }

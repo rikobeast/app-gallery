@@ -4,6 +4,7 @@ import "../styles/Navbar.css";
 import { useAuth } from "../auth/AuthProvider";
 import { AiOutlineMenu } from "react-icons/ai";
 import { AiOutlineClose } from "react-icons/ai";
+import Button from "./Button";
 import Logo from "../images/GGA Logo.svg";
 
 function NavBar() {
@@ -28,13 +29,6 @@ function NavBar() {
       id: 2,
       title: "Upload",
       url: "/upload",
-      displayIfLogged: true,
-    },
-    {
-      id: 3,
-      title: "Account",
-      url: "/dashboard",
-      displayIfLogged: true,
     },
   ];
 
@@ -46,6 +40,9 @@ function NavBar() {
 
   async function handleLogout() {
     await signOut();
+    history.push("/login");
+  }
+  async function handleLogin() {
     history.push("/login");
   }
 
@@ -93,10 +90,10 @@ function NavBar() {
                 ></div>
               </div>
             ))}
-            {!isLogged ? (
+            {isLogged ? (
               <div className="nav-item">
-                <Link onClick={setNavItemActive} id="option" to="/register">
-                  Sign Up
+                <Link onClick={setNavItemActive} id="option" to="/dashboard">
+                  Account
                 </Link>
               </div>
             ) : null}
@@ -105,15 +102,25 @@ function NavBar() {
       }
       {isLogged ? (
         <div className="btn-container">
-          <Link id="logout-btn" to="/login" onClick={handleLogout}>
-            Log out
-          </Link>
+          <Button
+            id="logout-btn"
+            onClick={() => {
+              handleLogout();
+              setNavItemActive();
+            }}
+            value="Log out"
+          />
         </div>
       ) : (
         <div className="btn-container">
-          <Link id="login-btn" to="/login">
-            Log in
-          </Link>
+          <Button
+            id="login-btn"
+            onClick={() => {
+              handleLogin();
+              setNavItemActive();
+            }}
+            value="Log in"
+          />
         </div>
       )}
       <div className="mobile-nav">

@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
 import Card from "./Card";
-import { Link, useParams } from "react-router-dom";
 import { supabase } from "../supabase";
 import { CardModal } from "./Modal/CardModal";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
@@ -22,7 +21,6 @@ function GameCardDisplay() {
   const prices = [];
   const developers = [];
   const imageURLs = [];
-  let { slug } = useParams();
 
   const iconStyles = {
     color: "007fc4",
@@ -66,6 +64,7 @@ function GameCardDisplay() {
       .select("developer");
 
     if (data.length === 0) {
+      setLoading(false);
       setError("Sorry... There aren't any games yet.");
     } else {
       for (let index = 0; index < data.length; index++) {

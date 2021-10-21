@@ -1,4 +1,4 @@
-import React, { useState, createRef, useEffect } from "react";
+import React, { useState, createRef } from "react";
 import Button from "../components/Button";
 import "../styles/Auth.css";
 import { Link, useHistory } from "react-router-dom";
@@ -8,7 +8,6 @@ import FormInput from "./FormInput";
 function AuthRegister() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [passwordState, setPasswordState] = useState("");
   const emailRef = createRef();
   const passwordRef = createRef();
   const confirmPasswordRef = createRef();
@@ -23,9 +22,6 @@ function AuthRegister() {
 
     if (password !== confirmedPassword) {
       return setError("Passwords do not match.");
-    }
-    if (passwordState.length < 8) {
-      return setError("Password must be at least 8 characters long.");
     }
 
     setLoading(true);

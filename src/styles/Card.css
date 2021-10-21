@@ -1,7 +1,12 @@
 :root {
   --height: 94.6vh;
-  --main-theme-color: #007fc4;
-  --main-theme-color-hover: #003b5a;
+  --main-theme-color-black: #191308;
+  --main-theme-color-gray: #322a26;
+  --main-theme-color-blue: #007fc4;
+  --main-theme-color-lightblue: #008eda;
+  --main-theme-color-white: #dce1e9;
+  --main-theme-color-red: #a50000;
+  --main-theme-color-lightred: #c40000;
   --font: "Poppins", sans-serif;
   --font-w-2: 200;
   --font-w-3: 300;
@@ -14,12 +19,12 @@
   position: relative;
   width: 245px;
   height: 400px;
-  color: whitesmoke;
+  color: var(--main-theme-color-white);
   margin: 7px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   transition: all 0.2s ease-in-out;
-  font-family: "Poppins", sans-serif;
-  border: 1px solid black;
+  font-family: var(--font);
+  border: 1px solid #53d9fb62;
 }
 .card:hover {
   transform: scale(1.02);

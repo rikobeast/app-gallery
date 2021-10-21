@@ -1,18 +1,20 @@
-import React, { useState, createRef } from "react";
+import React, { useState, useRef } from "react";
 import "../styles/Upload.css";
 import { supabase } from "../supabase";
 import { useAuth } from "../auth/AuthProvider";
 import Button from "./Button";
 import FormInput from "./FormInput";
+import uploadInstructions from "../images/Upload_Instructions.svg";
 
 function Upload() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const gameTitleRef = createRef();
-  const gameDescriptionRef = createRef();
-  const gamePriceRef = createRef();
-  const gameDevRef = createRef();
+  const gameTitleRef = useRef();
+  const gameDescriptionRef = useRef();
+  const gamePriceRef = useRef();
+  const gameDevRef = useRef();
+  const imageRef = useRef();
   const { user } = useAuth();
   const imageURL = {
     url: "",
@@ -20,16 +22,18 @@ function Upload() {
 
   async function uploadImage(e) {
     const file = e.target.files[0];
-
-    const { data, error } = await supabase.storage
+    setError("");
+    const { data } = await supabase.storage
       .from("card-images")
       .upload(`images/${file.name}`, file);
 
     const { publicURL } = supabase.storage
       .from("card-images")
       .getPublicUrl(`images/${file.name}`);
+
     imageURL.url = publicURL;
   }
+
   async function handleUpload(e) {
     const title = gameTitleRef.current.value;
     const description = gameDescriptionRef.current.value;
@@ -50,8 +54,15 @@ function Upload() {
     });
 
     if (error) {
-      setError(error.message);
+      setSuccess("");
+      setError("");
+      setError("The price field cannot contain special symbols or letters!");
+      setIsLoading(false);
     } else {
+      gameTitleRef.current.value = "";
+      gameDescriptionRef.current.value = "";
+      gamePriceRef.current.value = "";
+      gameDevRef.current.value = "";
       setSuccess("Game was uploaded successfully!");
       setIsLoading(false);
     }
@@ -68,11 +79,21 @@ function Upload() {
           </div>
           <div className="input-container">
             <label htmlFor="title">Game title</label>
-            <FormInput type="text" id="title" ref={gameTitleRef} required />
+            <FormInput type="text" id="title" ref={gameTitleRef} />
           </div>
           <div className="input-container">
-            <label htmlFor="image">Display image</label>
-            <FormInput type="file" id="image" onChange={uploadImage} required />
+            <label>Display image</label>
+            <small>
+              Take into consideration the instructions on the right, or the card
+              image will look weird.
+            </small>
+            <FormInput
+              accept="image/png"
+              type="file"
+              id="image"
+              onChange={uploadImage}
+              ref={imageRef}
+            />
           </div>
           <div className="input-container">
             <label htmlFor="description">Game description</label>
@@ -80,17 +101,17 @@ function Upload() {
               type="text"
               id="description"
               ref={gameDescriptionRef}
-              required
             ></textarea>
           </div>
           <div className="input-container">
             <label htmlFor="price">Game Price</label>
-            <FormInput type="text" id="price" ref={gamePriceRef} required />
+            <FormInput type="text" id="price" ref={gamePriceRef} />
           </div>
           <div className="input-container">
             <label htmlFor="developer">Developer</label>
-            <FormInput type="text" id="developer" ref={gameDevRef} required />
+            <FormInput type="text" id="developer" ref={gameDevRef} />
           </div>
+
           <Button
             disabled={isLoading}
             onClick={handleUpload}
@@ -99,7 +120,9 @@ function Upload() {
           />
         </form>
       </div>
-      <div className="upload-guidelines"></div>
+      <div className="upload-guidelines">
+        <img src={uploadInstructions} alt="instructions" />
+      </div>
     </div>
   );
 }
