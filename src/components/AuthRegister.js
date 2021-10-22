@@ -3,7 +3,7 @@ import Button from "../components/Button";
 import "../styles/Auth.css";
 import { Link, useHistory } from "react-router-dom";
 import { useAuth } from "../auth/AuthProvider";
-import FormInput from "./FormInput";
+import InputField from "./InputField";
 
 function AuthRegister() {
   const [error, setError] = useState("");
@@ -43,30 +43,30 @@ function AuthRegister() {
   return (
     <div className="register-page">
       <div className="register-container">
-        <h2 id="heading">Create an account</h2>
+        <div id="heading">Create an account</div>
         <form className="register-form" onSubmit={handleSubmit}>
           <div className="error">{error}</div>
-          <FormInput
+          <InputField
             type="email"
             className="email"
             placeholder="Email"
             ref={emailRef}
             required
-          ></FormInput>
-          <FormInput
+          ></InputField>
+          <InputField
             type="password"
             className="password"
             placeholder="Password"
             ref={passwordRef}
             required
-          ></FormInput>
-          <FormInput
+          ></InputField>
+          <InputField
             type="password"
             className="password"
             placeholder="Confirm password"
             ref={confirmPasswordRef}
             required
-          ></FormInput>
+          ></InputField>
           <Button
             id="auth-button"
             disabled={loading}

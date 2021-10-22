@@ -20,6 +20,9 @@
   width: 100%;
   height: var(--height);
 }
+.notification-handling {
+  margin-bottom: 15px;
+}
 .upload-container {
   width: 70%;
   background-color: #111111;
@@ -41,8 +44,7 @@
   width: 100%;
   height: 100%;
 }
-#header {
-  margin-bottom: 50px;
+.form-header {
   font-size: 2.5rem;
   font-weight: var(--font-w-8);
   color: var(--main-theme-color-white);
@@ -53,9 +55,9 @@
   box-sizing: border-box;
   width: 50%;
   padding: 5px;
-  background-color: var(--input-color);
+  background-color: #111111;
   border: 1px solid rgba(245, 245, 245, 0.44);
-  color: whitesmoke;
+  color: var(--main-theme-color-white);
   border-radius: 1px;
 }
 input:focus {
@@ -66,7 +68,7 @@ input:focus {
   font-weight: var(--font-w-3);
   width: 50%;
   height: 200px;
-  background-color: var(--input-color);
+  background-color: #111111;
   border: 1px solid rgba(245, 245, 245, 0.44);
   color: var(--main-theme-color-white);
   border-radius: 1px;
@@ -146,4 +148,27 @@ input[type="file"]::file-selector-button:hover {
 .error {
   color: red;
   font-size: 0.79rem;
+}
+
+@media only screen and (max-width: 720px) {
+  .upload-guidelines {
+    display: none;
+  }
+  .upload-container {
+    width: 100%;
+    min-height: 600px;
+  }
+  .upload-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+  }
+  .form-header {
+    font-size: 2rem;
+    font-weight: var(--font-w-8);
+    color: var(--main-theme-color-white);
+  }
 }

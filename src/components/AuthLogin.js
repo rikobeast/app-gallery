@@ -3,7 +3,7 @@ import "../styles/Auth.css";
 import { Link, useHistory } from "react-router-dom";
 import { useAuth } from "../auth/AuthProvider";
 import Button from "./Button";
-import FormInput from "./FormInput";
+import InputField from "./InputField";
 
 function AuthLogin() {
   const [loading, setLoading] = useState(false);
@@ -35,22 +35,20 @@ function AuthLogin() {
   return (
     <div className="login-page">
       <div className="login-container">
-        <h2 id="heading">Log in</h2>
+        <div id="heading">Log in</div>
         <div className={error ? "error" : null}>{error}</div>
         <form className="login-form" onSubmit={handleSubmit}>
-          <FormInput
-            type="email"
+          <InputField
             className="email"
+            type="email"
             placeholder="Email"
             ref={emailRef}
-            required
           />
-          <FormInput
-            type="password"
+          <InputField
             className="password"
+            type="password"
             placeholder="Password"
             ref={passwordRef}
-            required
           />
           <Button
             id="auth-button"

@@ -38,6 +38,12 @@ body {
 #heading {
   color: var(--main-theme-color-white);
   font-size: 25px;
+  margin-bottom: 15px;
+}
+.input-container {
+}
+.input-container :placeholder-shown {
+  font-size: 13px;
 }
 .error {
   font-family: var(--font);
@@ -58,7 +64,7 @@ input:focus {
 .email {
   box-sizing: border-box;
   width: 100%;
-  padding: 6px;
+  padding: 8px;
   margin-bottom: 5px;
   border: none;
   background-color: #1f1f1f;

@@ -3,7 +3,8 @@ import "../styles/Upload.css";
 import { supabase } from "../supabase";
 import { useAuth } from "../auth/AuthProvider";
 import Button from "./Button";
-import FormInput from "./FormInput";
+import InputField from "./InputField";
+import TextAreaField from "./TextAreaField";
 import uploadInstructions from "../images/Upload_Instructions.svg";
 
 function Upload() {
@@ -20,50 +21,101 @@ function Upload() {
     url: "",
   };
 
-  async function uploadImage(e) {
-    const file = e.target.files[0];
-    setError("");
-    const { data } = await supabase.storage
-      .from("card-images")
-      .upload(`images/${file.name}`, file);
+  let file;
 
-    const { publicURL } = supabase.storage
-      .from("card-images")
-      .getPublicUrl(`images/${file.name}`);
+  const getImageFile = (e) => {
+    file = e.target.files[0];
+  };
 
-    imageURL.url = publicURL;
-  }
+  const clicker = (e) => {
+    e.preventDefault();
+    const title = gameTitleRef.current.value;
+    const description = gameDescriptionRef.current.value;
+    const price = gamePriceRef.current.value;
+    const developer = gameDevRef.current.value;
+    const image = imageRef.current.value;
+    if (
+      title !== "" &&
+      description !== "" &&
+      price !== "" &&
+      developer !== "" &&
+      image !== ""
+    ) {
+      console.log(" In if ");
+    } else {
+      console.log(" Not In if ");
+    }
+  };
 
   async function handleUpload(e) {
     const title = gameTitleRef.current.value;
     const description = gameDescriptionRef.current.value;
     const price = gamePriceRef.current.value;
     const developer = gameDevRef.current.value;
+    const image = imageRef.current.value;
 
     e.preventDefault();
 
     setIsLoading(true);
     setError("");
-    const { error } = await supabase.from("games").upsert({
-      uploaded_by: user?.id,
-      image_url: imageURL.url,
-      title: title,
-      description: description,
-      price: price,
-      developer: developer,
-    });
 
-    if (error) {
-      setSuccess("");
-      setError("");
-      setError("The price field cannot contain special symbols or letters!");
-      setIsLoading(false);
+    //Input validations
+    if (
+      title !== "" &&
+      description !== "" &&
+      price !== "" &&
+      developer !== "" &&
+      image !== ""
+    ) {
+      //Image extension validation - if not .png, throw an error, else upload image and add the game into the database
+      if (file.name.includes(".png")) {
+        const { data } = await supabase.storage
+          .from("card-images")
+          .upload(`images/${file.name}`, file);
+
+        const { publicURL } = supabase.storage
+          .from("card-images")
+          .getPublicUrl(`images/${file.name}`);
+
+        imageURL.url = publicURL;
+
+        const { error } = await supabase.from("games").upsert({
+          uploaded_by: user?.id,
+          image_url: imageURL.url,
+          title: title,
+          description: description,
+          price: price,
+          developer: developer,
+        });
+        // Error for the price field, can be only integer values
+        if (error) {
+          setSuccess("");
+          setError("");
+          setError(
+            "The price field cannot be empty or contain special symbols or letters!"
+          );
+          setIsLoading(false);
+        } else {
+          //If everything is filled and the checks are fine, upload and clear inputs
+          gameTitleRef.current.value = "";
+          gameDescriptionRef.current.value = "";
+          gamePriceRef.current.value = "";
+          gameDevRef.current.value = "";
+          imageRef.current.value = "";
+          setSuccess("Game was uploaded successfully!");
+          setIsLoading(false);
+        }
+      } else {
+        //Error for incorrect image format
+        imageRef.current.value = "";
+        setError("");
+        setError("Image is not the correct format.");
+        setIsLoading(false);
+      }
     } else {
-      gameTitleRef.current.value = "";
-      gameDescriptionRef.current.value = "";
-      gamePriceRef.current.value = "";
-      gameDevRef.current.value = "";
-      setSuccess("Game was uploaded successfully!");
+      //Error if all or one of the fields is empty
+      setError("");
+      setError("Please fill out all the fields.");
       setIsLoading(false);
     }
   }
@@ -71,46 +123,23 @@ function Upload() {
     <div className="page">
       <div className="upload-container">
         <form className="upload-form">
-          <h1 id="header">Upload a game</h1>
+          <div className="form-header">Upload a game</div>
           <div className="notification-handling">
             <div className={success ? "success" : "error"}>
               {success ? success : error}
             </div>
           </div>
-          <div className="input-container">
-            <label htmlFor="title">Game title</label>
-            <FormInput type="text" id="title" ref={gameTitleRef} />
-          </div>
-          <div className="input-container">
-            <label>Display image</label>
-            <small>
-              Take into consideration the instructions on the right, or the card
-              image will look weird.
-            </small>
-            <FormInput
-              accept="image/png"
-              type="file"
-              id="image"
-              onChange={uploadImage}
-              ref={imageRef}
-            />
-          </div>
-          <div className="input-container">
-            <label htmlFor="description">Game description</label>
-            <textarea
-              type="text"
-              id="description"
-              ref={gameDescriptionRef}
-            ></textarea>
-          </div>
-          <div className="input-container">
-            <label htmlFor="price">Game Price</label>
-            <FormInput type="text" id="price" ref={gamePriceRef} />
-          </div>
-          <div className="input-container">
-            <label htmlFor="developer">Developer</label>
-            <FormInput type="text" id="developer" ref={gameDevRef} />
-          </div>
+          <InputField type="text" placeholder="Title" ref={gameTitleRef} />
+          <InputField
+            type="file"
+            placeholder="Image"
+            accept="image/png"
+            ref={imageRef}
+            onChange={getImageFile}
+          />
+          <TextAreaField placeholder="Description" ref={gameDescriptionRef} />
+          <InputField type="text" placeholder="Price" ref={gamePriceRef} />
+          <InputField type="text" placeholder="Developer" ref={gameDevRef} />
 
           <Button
             disabled={isLoading}
