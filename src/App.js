@@ -1,6 +1,11 @@
 import "./App.css";
 import { Provider } from "react-supabase";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  HashRouter,
+} from "react-router-dom";
 import NavBar from "./components/NavBar";
 import HomePage from "./components/HomePage";
 import AuthLogin from "./components/AuthLogin";
@@ -14,13 +19,13 @@ import Upload from "./components/Upload";
 function App() {
   return (
     <>
-      <Router>
+      <HashRouter>
         <AuthProvider>
           <Provider value={supabase}>
             <Switch>
               <NavBar />
             </Switch>
-            <Route exact path="/app-gallery" component={HomePage} />
+            <Route exact path="/" component={HomePage} />
             <Route path="/login" component={AuthLogin} />
             <Route path="/register" component={AuthRegister} />
             <Route exact path="/games" component={Games} />
@@ -28,7 +33,7 @@ function App() {
             <Route path="/upload" component={Upload} />
           </Provider>
         </AuthProvider>
-      </Router>
+      </HashRouter>
     </>
   );
 }

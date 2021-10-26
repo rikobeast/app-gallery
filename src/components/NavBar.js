@@ -67,7 +67,7 @@ function NavBar() {
   return (
     <div className="navigation">
       <div className="logo">
-        <Link onClick={setNavItemActive} id="logo" to="/app-gallery">
+        <Link onClick={setNavItemActive} id="logo" to="/">
           <img src={Logo} alt="Back to homepage" />
         </Link>
       </div>

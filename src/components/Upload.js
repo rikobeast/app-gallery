@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import "../styles/Upload.css";
 import { supabase } from "../supabase";
 import { useAuth } from "../auth/AuthProvider";
@@ -6,11 +6,14 @@ import Button from "./Button";
 import InputField from "./InputField";
 import TextAreaField from "./TextAreaField";
 import uploadInstructions from "../images/Upload_Instructions.svg";
+import { IoIosClose } from "react-icons/io";
+import { IoIosCheckmark } from "react-icons/io";
 
 function Upload() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [fileState, setFileState] = useState();
   const gameTitleRef = useRef();
   const gameDescriptionRef = useRef();
   const gamePriceRef = useRef();
@@ -21,29 +24,15 @@ function Upload() {
     url: "",
   };
 
-  let file;
-
   const getImageFile = (e) => {
-    file = e.target.files[0];
-  };
-
-  const clicker = (e) => {
-    e.preventDefault();
-    const title = gameTitleRef.current.value;
-    const description = gameDescriptionRef.current.value;
-    const price = gamePriceRef.current.value;
-    const developer = gameDevRef.current.value;
-    const image = imageRef.current.value;
-    if (
-      title !== "" &&
-      description !== "" &&
-      price !== "" &&
-      developer !== "" &&
-      image !== ""
-    ) {
-      console.log(" In if ");
-    } else {
-      console.log(" Not In if ");
+    //Image extension validation - if not .png, throw an error, else upload image and add the game into the database
+    const file = e.target.files[0];
+    setError("");
+    setSuccess("");
+    setFileState(file);
+    if (!file.name.includes(".png")) {
+      imageRef.current.value = "";
+      setError("Image is not the correct format.");
     }
   };
 
@@ -55,9 +44,9 @@ function Upload() {
     const image = imageRef.current.value;
 
     e.preventDefault();
-
-    setIsLoading(true);
     setError("");
+    setSuccess("");
+    setIsLoading(true);
 
     //Input validations
     if (
@@ -67,16 +56,21 @@ function Upload() {
       developer !== "" &&
       image !== ""
     ) {
-      //Image extension validation - if not .png, throw an error, else upload image and add the game into the database
-      if (file.name.includes(".png")) {
+      if (
+        title.indexOf(" ") === 0 ||
+        description.indexOf(" ") === 0 ||
+        price.indexOf(" ") === 0 ||
+        developer.indexOf(" ") === 0
+      ) {
+        setError("Fields cannot start with a whitespace");
+      } else {
         const { data } = await supabase.storage
           .from("card-images")
-          .upload(`images/${file.name}`, file);
+          .upload(`images/${fileState.name}`, fileState);
 
         const { publicURL } = supabase.storage
           .from("card-images")
-          .getPublicUrl(`images/${file.name}`);
-
+          .getPublicUrl(`images/${fileState.name}`);
         imageURL.url = publicURL;
 
         const { error } = await supabase.from("games").upsert({
@@ -87,10 +81,10 @@ function Upload() {
           price: price,
           developer: developer,
         });
+
         // Error for the price field, can be only integer values
         if (error) {
           setSuccess("");
-          setError("");
           setError(
             "The price field cannot be empty or contain special symbols or letters!"
           );
@@ -102,23 +96,20 @@ function Upload() {
           gamePriceRef.current.value = "";
           gameDevRef.current.value = "";
           imageRef.current.value = "";
+          setError("");
           setSuccess("Game was uploaded successfully!");
           setIsLoading(false);
         }
-      } else {
-        //Error for incorrect image format
-        imageRef.current.value = "";
-        setError("");
-        setError("Image is not the correct format.");
-        setIsLoading(false);
       }
     } else {
       //Error if all or one of the fields is empty
-      setError("");
+      setSuccess("");
       setError("Please fill out all the fields.");
       setIsLoading(false);
     }
+    setIsLoading(false);
   }
+
   return (
     <div className="page">
       <div className="upload-container">
@@ -129,7 +120,9 @@ function Upload() {
               {success ? success : error}
             </div>
           </div>
+
           <InputField type="text" placeholder="Title" ref={gameTitleRef} />
+
           <InputField
             type="file"
             placeholder="Image"

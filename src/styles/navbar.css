@@ -86,6 +86,7 @@
   font-family: var(--font);
   font-size: 13px;
   transition-duration: 0.3s;
+  margin-right: 15px;
 }
 #login-btn:hover {
   width: 88px;
@@ -98,6 +99,7 @@
   font-size: 13px;
   transition-duration: 0.3s;
   cursor: pointer;
+  margin-right: 15px;
 }
 #logout-btn {
   width: 88px;
@@ -109,6 +111,7 @@
   font-family: var(--font);
   font-size: 13px;
   transition-duration: 0.3s;
+  margin-right: 15px;
 }
 #logout-btn:hover {
   width: 88px;
@@ -120,6 +123,7 @@
   font-family: var(--font);
   font-size: 13px;
   transition-duration: 0.3s;
+  margin-right: 15px;
   cursor: pointer;
 }
 /* For mobile */

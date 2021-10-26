@@ -26,7 +26,7 @@ function AuthLogin() {
     if (error) {
       setError(error.message);
     } else {
-      history.push("/app-gallery");
+      history.push("/");
     }
 
     setLoading(false);

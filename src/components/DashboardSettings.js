@@ -20,7 +20,7 @@ function DashboardSettings() {
     const website = websiteRef.current.value;
 
     setError("");
-    setSuccess();
+    setSuccess("");
     const { error } = await supabase.from("profiles").upsert({
       id: user?.id,
       username: username,
@@ -35,6 +35,10 @@ function DashboardSettings() {
     } else {
       setError("");
       setSuccess("Changes saved successfully.");
+      usernameRef.current.value = "";
+      fnameRef.current.value = "";
+      lnameRef.current.value = "";
+      websiteRef.current.value = "";
     }
   }
 
