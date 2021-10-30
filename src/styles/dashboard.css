@@ -1,5 +1,5 @@
 :root {
-  --height: 94.6vh;
+  --height: calc(100vh - 50px);
   --main-theme-color: #007fc4;
   --main-theme-color-hover: #003b5a;
   --font: "Poppins", sans-serif;

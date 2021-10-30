@@ -1,3 +1,13 @@
+:root {
+  --height: calc(100vh - 50px);
+  --main-theme-color-black: #191308;
+  --main-theme-color-gray: #322a26;
+  --main-theme-color-blue: #007fc4;
+  --main-theme-color-lightblue: #008eda;
+  --main-theme-color-white: #dce1e9;
+  --main-theme-color-red: #a50000;
+  --main-theme-color-lightred: #c40000;
+}
 body {
   background-color: #111111;
 }
@@ -5,5 +15,17 @@ html,
 body,
 #app,
 #app > div {
-  height: 100vh;
+  height: calc(100vh - 50px);
+}
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--main-theme-color-black);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--main-theme-color-blue);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--main-theme-color-lightblue);
 }

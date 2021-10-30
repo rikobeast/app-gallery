@@ -1,5 +1,5 @@
 :root {
-  --height: 94.6vh;
+  --height: calc(100vh - 50px);
   --main-theme-color-black: #191308;
   --main-theme-color-gray: #322a26;
   --main-theme-color-lightblue: #53d8fb;

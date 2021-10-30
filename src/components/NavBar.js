@@ -14,6 +14,8 @@ function NavBar() {
   const [click, setClick] = useState(true);
   const history = useHistory();
 
+  //TODO <NavItem/> Component with isActive prop instead of mapping trough hardcoded object
+
   const navItems = [
     {
       id: 0,

@@ -1,5 +1,5 @@
 :root {
-  --height: 94.6vh;
+  --height: calc(100vh - 50px);
   --main-theme-color-black: #111111;
   --main-theme-color-gray: #322a26;
   --main-theme-color-blue: #007fc4;
@@ -48,6 +48,7 @@
   width: 30px;
   height: 30px;
   transition-duration: 0.5s;
+  cursor: pointer;
 }
 .card-modal {
   z-index: 999;
@@ -110,19 +111,19 @@
 .window-content #buy-btn {
   width: 100px;
   height: 35px;
-  border: 1px solid var(--main-theme-color-blue);
-  color: var(--main-theme-color);
+  border: none;
+  color: var(--main-theme-color-white);
   border-radius: 3px;
-  background: none;
+  background: var(--main-theme-color-blue);
   transition-duration: 0.3s;
 }
 .window-content #buy-btn:hover {
   width: 100px;
   height: 35px;
-  border: 1px solid var(--main-theme-color-lightblue);
-  color: whitesmoke;
+  border: none;
+  color: var(--main-theme-color-white);
   border-radius: 3px;
-  background: var(--main-theme-color);
+  background: var(--main-theme-color-lightblue);
   transition-duration: 0.3s;
   cursor: pointer;
 }
@@ -180,6 +181,9 @@
     width: 100%;
   }
   .window-content #buy-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 100px;
     height: 30px;
     background-color: var(--main-theme-color-blue);

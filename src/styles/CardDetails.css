@@ -1,5 +1,5 @@
 :root {
-  --height: 94.6vh;
+  --height: calc(100vh - 50px);
   --main-theme-dark: #333333;
   --main-theme-dark-hover: #1f1f1f;
   --main-theme-color: #007fc4;

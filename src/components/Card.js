@@ -4,12 +4,22 @@ import "../styles/Card.css";
 function Card(props) {
   return (
     <div className="card" onClick={props.onClick}>
-      <div className="card-info">
-        <h3 id="card-title">{props.title}</h3>
-        <small id="card-description">{props.description}</small>
-        <p id="card-item-price">{props.price}</p>
-        <p id="card-item-developer">{props.developer}</p>
+      <div className="card-image">
         <img src={`${props.URL}`} alt="" />
+        <div className="card-info">
+          <div id="card-title">
+            <h2>{props.title}</h2>
+          </div>
+          <div id="card-description">
+            <small>{props.description}</small>
+          </div>
+          <div id="card-item-price">
+            <p>{props.price}</p>
+          </div>
+          <div id="card-item-developer">
+            <p>{props.developer}</p>
+          </div>
+        </div>
       </div>
     </div>
   );

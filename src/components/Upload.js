@@ -1,15 +1,72 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useReducer, useEffect } from "react";
 import "../styles/Upload.css";
 import { supabase } from "../supabase";
 import { useAuth } from "../auth/AuthProvider";
 import Button from "./Button";
-import InputField from "./InputField";
 import TextAreaField from "./TextAreaField";
 import uploadInstructions from "../images/Upload_Instructions.svg";
-import { IoIosClose } from "react-icons/io";
-import { IoIosCheckmark } from "react-icons/io";
+import InputField from "./InputField";
+
+function resetInputError(
+  defaultErrorState,
+  defaultFocusedState,
+  defaultErrorText
+) {
+  return {
+    errorText: defaultErrorText,
+    isFocused: defaultFocusedState,
+    hasError: defaultErrorState,
+  };
+}
+const reducer = (state, action) => {
+  switch (action.type) {
+    case "TITLE_CLICK":
+      return {
+        titleErrorText: (state.errorText = "This field is required."),
+        titleIsFocused: (state.isFocused = true),
+        titleHasError: (state.hasError = true),
+      };
+    case "DESCRIPTION_CLICK":
+      return {
+        descriptionErrorText: (state.errorText = "This field is required."),
+        descriptionIsFocused: (state.isFocused = true),
+        descriptionHasError: (state.hasError = true),
+      };
+    case "PRICE_CLICK":
+      return {
+        priceErrorText: (state.errorText =
+          "The field cannot contain letters or special symbols."),
+        priceIsFocused: (state.isFocused = true),
+        priceHasError: (state.hasError = true),
+      };
+    case "DEVELOPER_CLICK":
+      return {
+        developerErrorText: (state.errorText = "This field is required."),
+        developerIsFocused: (state.isFocused = true),
+        developerHasError: (state.hasError = true),
+      };
+    case "RESET":
+      return resetInputError(action.payload);
+    default:
+      return state;
+  }
+};
 
 function Upload() {
+  const [state, dispatch] = useReducer(reducer, {
+    titleHasError: false,
+    titleIsFocused: false,
+    titleErrorText: "",
+    descriptionHasError: false,
+    descriptionIsFocused: false,
+    descriptionErrorText: "",
+    priceHasError: false,
+    priceIsFocused: false,
+    priceErrorText: "",
+    developerHasError: false,
+    developerIsFocused: false,
+    developerErrorText: "",
+  });
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -24,6 +81,41 @@ function Upload() {
     url: "",
   };
 
+  async function checkIfInputHasValue() {
+    const titleValue = gameTitleRef.current.value;
+    const descriptionValue = gameDescriptionRef.current.value;
+    const priceValue = gamePriceRef.current.value;
+    const developerValue = gameDevRef.current.value;
+    setError("");
+    setSuccess("");
+
+    if (gameTitleRef.current === document.activeElement) {
+      if (titleValue === "") {
+        dispatch({ type: "TITLE_CLICK" });
+      } else {
+        dispatch({ type: "RESET" });
+      }
+    } else if (gamePriceRef.current === document.activeElement) {
+      if (isNaN(priceValue)) {
+        dispatch({ type: "PRICE_CLICK" });
+      } else {
+        dispatch({ type: "RESET" });
+      }
+    } else if (gameDescriptionRef.current === document.activeElement) {
+      if (descriptionValue === "") {
+        dispatch({ type: "DESCRIPTION_CLICK" });
+      } else {
+        dispatch({ type: "RESET" });
+      }
+    } else if (gameDevRef.current === document.activeElement) {
+      if (developerValue === "") {
+        dispatch({ type: "DEVELOPER_CLICK" });
+      } else {
+        dispatch({ type: "RESET" });
+      }
+    }
+  }
+
   const getImageFile = (e) => {
     //Image extension validation - if not .png, throw an error, else upload image and add the game into the database
     const file = e.target.files[0];
@@ -33,6 +125,7 @@ function Upload() {
     if (!file.name.includes(".png")) {
       imageRef.current.value = "";
       setError("Image is not the correct format.");
+      setFileState(null);
     }
   };
 
@@ -47,8 +140,6 @@ function Upload() {
     setError("");
     setSuccess("");
     setIsLoading(true);
-
-    //Input validations
     if (
       title !== "" &&
       description !== "" &&
@@ -56,55 +147,35 @@ function Upload() {
       developer !== "" &&
       image !== ""
     ) {
-      if (
-        title.indexOf(" ") === 0 ||
-        description.indexOf(" ") === 0 ||
-        price.indexOf(" ") === 0 ||
-        developer.indexOf(" ") === 0
-      ) {
-        setError("Fields cannot start with a whitespace");
-      } else {
-        const { data } = await supabase.storage
-          .from("card-images")
-          .upload(`images/${fileState.name}`, fileState);
+      const { data } = await supabase.storage
+        .from("card-images")
+        .upload(`images/${fileState.name}`, fileState);
 
-        const { publicURL } = supabase.storage
-          .from("card-images")
-          .getPublicUrl(`images/${fileState.name}`);
-        imageURL.url = publicURL;
+      const { publicURL } = supabase.storage
+        .from("card-images")
+        .getPublicUrl(`images/${fileState.name}`);
+      imageURL.url = publicURL;
 
-        const { error } = await supabase.from("games").upsert({
-          uploaded_by: user?.id,
-          image_url: imageURL.url,
-          title: title,
-          description: description,
-          price: price,
-          developer: developer,
-        });
+      const { error } = await supabase.from("games").upsert({
+        uploaded_by: user?.id,
+        image_url: imageURL.url,
+        title: title,
+        description: description,
+        price: price,
+        developer: developer,
+      });
 
-        // Error for the price field, can be only integer values
-        if (error) {
-          setSuccess("");
-          setError(
-            "The price field cannot be empty or contain special symbols or letters!"
-          );
-          setIsLoading(false);
-        } else {
-          //If everything is filled and the checks are fine, upload and clear inputs
-          gameTitleRef.current.value = "";
-          gameDescriptionRef.current.value = "";
-          gamePriceRef.current.value = "";
-          gameDevRef.current.value = "";
-          imageRef.current.value = "";
-          setError("");
-          setSuccess("Game was uploaded successfully!");
-          setIsLoading(false);
-        }
-      }
+      //If everything is filled and the checks are fine, upload and clear inputs
+      gameTitleRef.current.value = "";
+      gameDescriptionRef.current.value = "";
+      gamePriceRef.current.value = "";
+      gameDevRef.current.value = "";
+      imageRef.current.value = "";
+      setError("");
+      setSuccess("Game was uploaded successfully!");
+      setIsLoading(false);
     } else {
-      //Error if all or one of the fields is empty
-      setSuccess("");
-      setError("Please fill out all the fields.");
+      setError("Please fill out all the fields!");
       setIsLoading(false);
     }
     setIsLoading(false);
@@ -113,34 +184,85 @@ function Upload() {
   return (
     <div className="page">
       <div className="upload-container">
-        <form className="upload-form">
-          <div className="form-header">Upload a game</div>
-          <div className="notification-handling">
-            <div className={success ? "success" : "error"}>
-              {success ? success : error}
-            </div>
-          </div>
+        <div className="form-container">
+          <form className="upload-form">
+            <div className="form-header">Upload a game</div>
+            {error || success ? (
+              <div className="notification-handling">
+                <div className={success ? "success" : "error"}>
+                  {success ? success : error}
+                </div>
+              </div>
+            ) : null}
 
-          <InputField type="text" placeholder="Title" ref={gameTitleRef} />
+            <InputField
+              className="test-input"
+              type="text"
+              placeholder="Title"
+              ref={gameTitleRef}
+              hasError={state.titleHasError}
+              isFocused={state.titleIsFocused}
+              onClick={checkIfInputHasValue}
+              onChange={checkIfInputHasValue}
+              errorText={state.titleErrorText}
+            />
 
-          <InputField
-            type="file"
-            placeholder="Image"
-            accept="image/png"
-            ref={imageRef}
-            onChange={getImageFile}
-          />
-          <TextAreaField placeholder="Description" ref={gameDescriptionRef} />
-          <InputField type="text" placeholder="Price" ref={gamePriceRef} />
-          <InputField type="text" placeholder="Developer" ref={gameDevRef} />
+            <InputField
+              type="file"
+              accept="image/png"
+              ref={imageRef}
+              onChange={getImageFile}
+            />
+            <TextAreaField
+              className="test-input"
+              placeholder="Description"
+              ref={gameDescriptionRef}
+              hasError={state.descriptionHasError}
+              isFocused={state.descriptionIsFocused}
+              onClick={checkIfInputHasValue}
+              onChange={checkIfInputHasValue}
+              errorText={state.descriptionErrorText}
+            />
+            <InputField
+              className="test-input"
+              type="text"
+              placeholder="Price"
+              ref={gamePriceRef}
+              hasError={state.priceHasError}
+              isFocused={state.priceIsFocused}
+              onClick={checkIfInputHasValue}
+              onChange={checkIfInputHasValue}
+              errorText={state.priceErrorText}
+            />
+            <InputField
+              className="test-input"
+              type="text"
+              placeholder="Developer"
+              ref={gameDevRef}
+              hasError={state.developerHasError}
+              isFocused={state.developerIsFocused}
+              onClick={checkIfInputHasValue}
+              onChange={checkIfInputHasValue}
+              errorText={state.developerErrorText}
+            />
 
-          <Button
-            disabled={isLoading}
-            onClick={handleUpload}
-            id="upload-btn"
-            value={isLoading ? <span>Uploading...</span> : <span>Upload</span>}
-          />
-        </form>
+            <Button
+              disabled={
+                isLoading ||
+                state.titleHasError ||
+                state.descriptionHasError ||
+                state.priceHasError ||
+                state.developerHasError ||
+                !fileState
+              }
+              onClick={handleUpload}
+              id="upload-btn"
+              value={
+                isLoading ? <span>Uploading...</span> : <span>Upload</span>
+              }
+            />
+          </form>
+        </div>
       </div>
       <div className="upload-guidelines">
         <img src={uploadInstructions} alt="instructions" />
