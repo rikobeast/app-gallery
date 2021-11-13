@@ -2,7 +2,7 @@ import React, { useState, createRef } from "react";
 import "../styles/Auth.css";
 import { Link, useHistory } from "react-router-dom";
 import { useAuth } from "../auth/AuthProvider";
-import Button from "./Button";
+import Button from "../styled_components/Button";
 import InputField from "./InputField";
 
 function AuthLogin() {
@@ -50,12 +50,9 @@ function AuthLogin() {
             placeholder="Password"
             ref={passwordRef}
           />
-          <Button
-            id="auth-button"
-            disabled={loading}
-            type="submit"
-            value={loading ? <span>Loading...</span> : <span>Log in</span>}
-          />
+          <Button disabled={loading} type="submit">
+            {loading ? <span>Loading...</span> : <span>Log in</span>}
+          </Button>
           <Link to="/register" id="reg-redirect">
             Don't have an account? Register here.
           </Link>

@@ -4,6 +4,8 @@ import "../styles/Navbar.css";
 import { useAuth } from "../auth/AuthProvider";
 import { AiOutlineMenu } from "react-icons/ai";
 import { AiOutlineClose } from "react-icons/ai";
+import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
+import navItems from "../navigation_items/navItem_data";
 import Button from "./Button";
 import Logo from "../images/GGA Logo.svg";
 
@@ -12,34 +14,19 @@ function NavBar() {
   const [isLogged, setIsLogged] = useState(false);
   const [clickedItemId, setClickedItemId] = useState();
   const [click, setClick] = useState(true);
+  const [toggleDropdown, setToggleDropdown] = useState(false);
   const history = useHistory();
 
   //TODO <NavItem/> Component with isActive prop instead of mapping trough hardcoded object
-
-  const navItems = [
-    {
-      id: 0,
-      title: "Games",
-      url: "/games",
-    },
-    {
-      id: 1,
-      title: "Discussions",
-      url: "/discussions",
-    },
-    {
-      id: 2,
-      title: "Upload",
-      url: "/upload",
-    },
-  ];
 
   let iconStyles = {
     color: "white",
     width: "40",
     height: "40",
   };
-
+  function toggleProfileDropdown() {
+    setToggleDropdown(!toggleDropdown);
+  }
   async function handleLogout() {
     await signOut();
     history.push("/login");
@@ -92,26 +79,41 @@ function NavBar() {
                 ></div>
               </div>
             ))}
-            {isLogged ? (
-              <div className="nav-item">
-                <Link onClick={setNavItemActive} id="option" to="/dashboard">
-                  Account
-                </Link>
-              </div>
-            ) : null}
           </div>
         </div>
       }
       {isLogged ? (
-        <div className="btn-container">
-          <Button
-            id="logout-btn"
-            onClick={() => {
-              handleLogout();
-              setNavItemActive();
-            }}
-            value="Log out"
-          />
+        <div className="profile-dropdown">
+          <div className="profile-image">
+            <img src="" alt="" />
+          </div>
+          <div className="display-name">
+            <p id="name">Zhivko Minchev</p>
+          </div>
+          <button className="dropdown-toggle" onClick={toggleProfileDropdown}>
+            {toggleDropdown ? (
+              <IoMdArrowDropup size="20" />
+            ) : (
+              <IoMdArrowDropdown size="20" />
+            )}
+          </button>
+          {toggleDropdown ? (
+            <div className="dropdown-display">
+              <div id="dropdown-item">
+                <Link onClick={toggleProfileDropdown} id="item" to="/dashboard">
+                  Profile
+                </Link>
+              </div>
+              <Button
+                id="logout-btn"
+                onClick={() => {
+                  handleLogout();
+                  toggleProfileDropdown();
+                }}
+                value="Log out"
+              />
+            </div>
+          ) : null}
         </div>
       ) : (
         <div className="btn-container">

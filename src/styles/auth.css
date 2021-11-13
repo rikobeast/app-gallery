@@ -50,7 +50,19 @@ body {
   font-size: 25px;
   margin-bottom: 15px;
 }
-.input-container {
+.register-form .input-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin: 0;
+}
+.login-form .input-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin: 0;
 }
 .input-container :placeholder-shown {
   font-size: 13px;
@@ -95,27 +107,7 @@ input:focus {
 }
 .toggle-visible {
   position: absolute;
-  margin-left: 13rem;
-  cursor: pointer;
-}
-#auth-button {
-  width: 100%;
-  padding: 10px;
-  background-color: var(--main-theme-color-blue);
-  border: none;
-  color: var(--main-theme-color-white);
-  font-weight: var(--font-w-6);
-  font-size: 16px;
-  transition-duration: 0.3s;
-}
-#auth-button:hover {
-  width: 100%;
-  padding: 10px;
-  background-color: var(--main-theme-color-lightblue);
-  border: none;
-  color: var(--main-theme-color-white);
-  font-size: 16px;
-  transition-duration: 0.3s;
+  margin-left: 14em;
   cursor: pointer;
 }
 #reg-redirect {

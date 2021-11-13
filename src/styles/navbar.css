@@ -111,7 +111,6 @@
   font-family: var(--font);
   font-size: 13px;
   transition-duration: 0.3s;
-  margin-right: 15px;
 }
 #logout-btn:hover {
   width: 88px;
@@ -123,9 +122,76 @@
   font-family: var(--font);
   font-size: 13px;
   transition-duration: 0.3s;
-  margin-right: 15px;
   cursor: pointer;
 }
+.profile-dropdown {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-right: 25px;
+  width: 200px;
+  height: 45px;
+  color: white;
+}
+.profile-image {
+  width: 40px;
+  height: 40px;
+  border: 1px solid white;
+  border-radius: 50%;
+}
+.profile-image img {
+}
+.display-name {
+  display: flex;
+  align-items: center;
+  height: 50px;
+  margin: 5px;
+}
+.display-name p {
+  font-size: 13px;
+}
+.dropdown-toggle {
+  display: flex;
+  align-items: center;
+  color: var(--main-theme-color-lightblue);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+.dropdown-display {
+  z-index: 999;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 200px;
+  height: 100px;
+  top: 50px;
+  background-color: black;
+}
+#dropdown-item {
+  display: flex;
+  justify-content: center;
+  margin: 10px;
+  width: 100%;
+}
+#item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  text-decoration: none;
+  color: white;
+}
+#item:hover {
+  color: var(--main-theme-color-lightblue);
+}
+#dropdown-item:hover {
+  background-color: var(--main-theme-color-black);
+  cursor: pointer;
+}
+
 /* For mobile */
 #login-btn-m {
   font-family: var(--font);

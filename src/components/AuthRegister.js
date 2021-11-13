@@ -1,8 +1,9 @@
 import React, { useState, useRef } from "react";
-import Button from "../components/Button";
+import Button from "../styled_components/Button";
 import "../styles/Auth.css";
 import { Link, useHistory } from "react-router-dom";
 import { useAuth } from "../auth/AuthProvider";
+import { checkIfPasswordsMatch } from "../helper_functions/checkIfPasswordsMatch";
 import InputField from "./InputField";
 import { IoIosClose } from "react-icons/io";
 import { IoIosCheckmark } from "react-icons/io";
@@ -31,14 +32,6 @@ function AuthRegister() {
   }
   function showConfirmedPasswordToUser() {
     setShowConfirmedPassword(!showConfirmedPassword);
-  }
-  function checkIfPasswordsMatch() {
-    const password = passwordRef.current.value;
-    const confirmedPassword = confirmPasswordRef.current.value;
-    if (password !== confirmedPassword) {
-      return false;
-    }
-    return true;
   }
 
   function validateEmail() {
@@ -72,18 +65,15 @@ function AuthRegister() {
     e.preventDefault();
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
+    const confirmedPassword = confirmPasswordRef.current.value;
 
     setLoading(true);
     setError("");
     validateEmail();
 
-    if (!checkIfPasswordsMatch()) {
+    if (!checkIfPasswordsMatch(password, confirmedPassword)) {
       setLoading(false);
       return setError("Passwords do not match.");
-    }
-    if (!validateEmail()) {
-      setLoading(false);
-      return setError("Invalid email.");
     }
 
     if (strength < 4) {
@@ -174,13 +164,9 @@ function AuthRegister() {
               <span>Password must have at least one special character.</span>
             </div>
           </div>
-
-          <Button
-            id="auth-button"
-            disabled={loading}
-            type="submit"
-            value={loading ? <span>Loading...</span> : <span>Sign in</span>}
-          />
+          <Button disabled={loading} type="submit">
+            {loading ? <span>Loading...</span> : <span>Sign in</span>}{" "}
+          </Button>
           <Link to="/login" id="reg-redirect">
             Already have an account? Log in.
           </Link>
