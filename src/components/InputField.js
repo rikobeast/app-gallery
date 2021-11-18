@@ -10,6 +10,7 @@ const InputField = forwardRef((props, ref) => {
       {props.labelText ? <label>{props.labelText}</label> : null}
       <input
         className={props.className}
+        id={props.id}
         type={props.type}
         placeholder={props.placeholder}
         style={isFocused ? focusedStyles : props.style}

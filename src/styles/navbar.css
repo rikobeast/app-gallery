@@ -129,7 +129,7 @@
   align-items: center;
   justify-content: space-between;
   margin-right: 25px;
-  width: 200px;
+  width: 80px;
   height: 45px;
   color: white;
 }
@@ -138,8 +138,6 @@
   height: 40px;
   border: 1px solid white;
   border-radius: 50%;
-}
-.profile-image img {
 }
 .display-name {
   display: flex;
@@ -168,6 +166,7 @@
   width: 200px;
   height: 100px;
   top: 50px;
+  right: 0;
   background-color: black;
 }
 #dropdown-item {

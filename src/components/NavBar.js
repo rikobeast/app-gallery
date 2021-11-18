@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import "../styles/Navbar.css";
 import { useAuth } from "../auth/AuthProvider";
+import { supabase } from "../supabase";
 import { AiOutlineMenu } from "react-icons/ai";
 import { AiOutlineClose } from "react-icons/ai";
 import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
@@ -24,6 +25,7 @@ function NavBar() {
     width: "40",
     height: "40",
   };
+
   function toggleProfileDropdown() {
     setToggleDropdown(!toggleDropdown);
   }
@@ -34,7 +36,6 @@ function NavBar() {
   async function handleLogin() {
     history.push("/login");
   }
-
   async function handleClick() {
     setClick(!click);
   }
@@ -87,9 +88,7 @@ function NavBar() {
           <div className="profile-image">
             <img src="" alt="" />
           </div>
-          <div className="display-name">
-            <p id="name">Zhivko Minchev</p>
-          </div>
+
           <button className="dropdown-toggle" onClick={toggleProfileDropdown}>
             {toggleDropdown ? (
               <IoMdArrowDropup size="20" />

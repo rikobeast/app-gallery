@@ -196,7 +196,7 @@ function Upload() {
             ) : null}
 
             <InputField
-              className="test-input"
+              className="upload-input"
               type="text"
               placeholder="Title"
               ref={gameTitleRef}
@@ -214,7 +214,7 @@ function Upload() {
               onChange={getImageFile}
             />
             <TextAreaField
-              className="test-input"
+              className="upload-input"
               placeholder="Description"
               ref={gameDescriptionRef}
               hasError={state.descriptionHasError}
@@ -224,7 +224,7 @@ function Upload() {
               errorText={state.descriptionErrorText}
             />
             <InputField
-              className="test-input"
+              className="upload-input"
               type="text"
               placeholder="Price"
               ref={gamePriceRef}
@@ -235,7 +235,7 @@ function Upload() {
               errorText={state.priceErrorText}
             />
             <InputField
-              className="test-input"
+              className="upload-input"
               type="text"
               placeholder="Developer"
               ref={gameDevRef}

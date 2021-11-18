@@ -4,6 +4,7 @@ import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { useAuth } from "../auth/AuthProvider";
 import { supabase } from "../supabase";
 import Button from "./Button";
+import InputField from "./InputField";
 
 function Dashboard() {
   const [error, setError] = useState("");
@@ -12,10 +13,14 @@ function Dashboard() {
   const [userName, setUserName] = useState("");
   const [userFirstName, setUserFirstName] = useState("");
   const [userLastName, setUserLastName] = useState("");
+  const [fileState, setFileState] = useState();
+  const [avatarUrl, setAvatarUrl] = useState();
   const usernameRef = useRef();
   const fnameRef = useRef();
   const lnameRef = useRef();
   const websiteRef = useRef();
+  const profileImgRef = useRef();
+  const fileUploadRef = useRef();
   const { user } = useAuth();
 
   let loaderStyle = {
@@ -24,7 +29,14 @@ function Dashboard() {
     height: "20",
   };
 
-  async function getUserName() {
+  const getImageFile = (e) => {
+    const file = e.target.files[0];
+    setError("");
+    setSuccess("");
+    setFileState(file);
+  };
+
+  async function getUserData() {
     const { data } = await supabase
       .from("profiles")
       .select("username")
@@ -37,9 +49,15 @@ function Dashboard() {
       .from("profiles")
       .select("last_name")
       .eq("id", user?.id);
+    const { data: avatar } = await supabase
+      .from("profiles")
+      .select("avatar_url")
+      .eq("id", user?.id);
     setUserName(data[0].username);
     setUserFirstName(firstName[0].first_name);
     setUserLastName(lastName[0].last_name);
+    setAvatarUrl(avatar[0].avatar_url);
+    console.log(avatarUrl);
   }
   async function updateProfile() {
     setIsLoading(true);
@@ -48,16 +66,22 @@ function Dashboard() {
     const lname = lnameRef.current.value;
     const website = websiteRef.current.value;
 
-    getUserName();
-
+    const { data: img } = await supabase.storage
+      .from("avatars")
+      .upload(`profile_images/${fileState.name}`, fileState);
+    const { data: imageUrl } = await supabase.storage
+      .from("avatars")
+      .getPublicUrl(`profile_images/${fileState.name}`);
     setError("");
     setSuccess("");
+
     const { error } = await supabase.from("profiles").upsert({
       id: user?.id,
       username: username,
       first_name: fname,
       last_name: lname,
       website: website,
+      avatar_url: imageUrl.publicURL,
     });
 
     if (error) {
@@ -67,24 +91,40 @@ function Dashboard() {
     } else {
       setError("");
       setSuccess("Changes saved successfully.");
+      getUserData();
       usernameRef.current.value = "";
       fnameRef.current.value = "";
       lnameRef.current.value = "";
       websiteRef.current.value = "";
+      fileUploadRef.current.value = "";
       setIsLoading(false);
     }
     setIsLoading(false);
   }
 
   useEffect(() => {
-    getUserName();
+    getUserData();
   }, [userName, userFirstName, userLastName]);
 
   return (
     <div className="account-page">
       <div className="profile-container">
         <div className="avatar-container">
-          <div className="avatar"></div>
+          <div className="avatar">
+            <img src={avatarUrl} alt="" ref={profileImgRef} />
+          </div>
+        </div>
+        <div className="upload-avatar">
+          <label htmlFor="file-upload" className="file-upload-button">
+            Upload image
+          </label>
+          <InputField
+            id="file-upload"
+            type="file"
+            onChange={getImageFile}
+            accept="image/png"
+            ref={fileUploadRef}
+          />
         </div>
         <div className="user-info">
           <div className="names">
@@ -107,15 +147,30 @@ function Dashboard() {
           <div className="sub-header">
             <div className="sub-header-content">
               <label>Username</label>
-              <input type="text" id="username" ref={usernameRef}></input>
+              <input
+                type="text"
+                id="username"
+                value={userName}
+                ref={usernameRef}
+              ></input>
             </div>
             <div className="sub-header-content">
               <label>First name</label>
-              <input type="text" id="fname" ref={fnameRef}></input>
+              <input
+                type="text"
+                id="fname"
+                value={userFirstName}
+                ref={fnameRef}
+              ></input>
             </div>
             <div className="sub-header-content">
               <label>Last name</label>
-              <input type="text" id="lname" ref={lnameRef}></input>
+              <input
+                type="text"
+                id="lname"
+                value={userLastName}
+                ref={lnameRef}
+              ></input>
             </div>
             <div className="sub-header-content">
               <label>Website</label>
